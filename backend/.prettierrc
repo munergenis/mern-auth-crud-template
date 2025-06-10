@@ -1,1 +1,1 @@
-{ "singleAttributePerLine": true, "singleQuote": true }
+{ "singleAttributePerLine": true, "singleQuote": true, "printWidth": 120 }
