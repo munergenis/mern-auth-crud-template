@@ -1,5 +1,5 @@
-import { BrowserRouterProvider } from './Router/BrowserRouterProvider';
-import RoutesProvider from './Router/RoutesProvider';
+import { BrowserRouterProvider } from './router/BrowserRouterProvider';
+import RoutesProvider from './router/RoutesProvider';
 import { ThemeProvider } from './theme/ThemeProvider';
 
 export const AppProviders = () => {
