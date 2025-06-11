@@ -1,3 +1,4 @@
+import { ACCESS_TOKEN_DURATION_MINUTES, REFRESH_TOKEN_DURATION_DAYS } from '#config/appGlobalConfig.js';
 import { JWT_REFRESH_SECRET, JWT_SECRET } from '#constants/env.js';
 import { SessionId } from '#models/session.model.js';
 import { UserId } from '#models/user.model.js';
@@ -17,11 +18,11 @@ const defaults: SignOptions = {
 };
 
 const accessTokenSignOptions: SignOptionsAndSecret = {
-  expiresIn: '15m',
+  expiresIn: `${ACCESS_TOKEN_DURATION_MINUTES}m`,
   secret: JWT_SECRET,
 };
 export const refreshTokenSignOptions: SignOptionsAndSecret = {
-  expiresIn: '30d',
+  expiresIn: `${REFRESH_TOKEN_DURATION_DAYS}d`,
   secret: JWT_REFRESH_SECRET,
 };
 

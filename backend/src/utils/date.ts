@@ -1,6 +1,47 @@
-export const oneYearFromNow = () => new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
-export const thirtyDaysFromNow = () => new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-export const oneHourFromNow = () => new Date(Date.now() + 1 * 60 * 60 * 1000);
-export const fifteenMinutesFromNow = () => new Date(Date.now() + 15 * 60 * 1000);
-export const minutesAgo = (min: number) => new Date(Date.now() - min * 60 * 1000);
-export const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+/**
+ *
+ * TIME FROM NOW
+ *
+ */
+export const daysFromNow = (days: number): Date => {
+  if (days < 0) {
+    throw new Error('days must be greater than 0');
+  }
+  return new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+};
+export const hoursFromNow = (hours: number): Date => {
+  if (hours < 0) {
+    throw new Error('hours must be greater than 0');
+  }
+  return new Date(Date.now() + hours * 60 * 60 * 1000);
+};
+export const minutesFromNow = (minutes: number): Date => {
+  if (minutes < 0) {
+    throw new Error('minutes must be greater than 0');
+  }
+  return new Date(Date.now() + minutes * 60 * 1000);
+};
+
+/**
+ *
+ * TIME AGO
+ *
+ */
+export const minutesAgo = (minutes: number): Date => {
+  if (minutes < 0) {
+    throw new Error('minutes must be greater than 0');
+  }
+  return new Date(Date.now() - minutes * 60 * 1000);
+};
+
+/**
+ *
+ * TIME IN MS
+ *
+ */
+export const hoursInMs = (hours: number): number => {
+  if (hours < 0) {
+    throw new Error('hours must be greater than 0');
+  }
+  return hours * 60 * 60 * 1000;
+};

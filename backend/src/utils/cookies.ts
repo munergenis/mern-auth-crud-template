@@ -1,6 +1,7 @@
+import { ACCESS_TOKEN_DURATION_MINUTES, REFRESH_TOKEN_DURATION_DAYS } from '#config/appGlobalConfig.js';
 import { CookieOptions, Response } from 'express';
 
-import { fifteenMinutesFromNow, thirtyDaysFromNow } from './date.js';
+import { daysFromNow, minutesFromNow } from './date.js';
 
 export const REFRESH_PATH = '/auth/refresh';
 const enum TOKEN_KEYS {
@@ -18,11 +19,11 @@ const defaults: CookieOptions = {
 
 export const getAccesssTokenCookieOptions = (): CookieOptions => ({
   ...defaults,
-  expires: fifteenMinutesFromNow(),
+  expires: minutesFromNow(ACCESS_TOKEN_DURATION_MINUTES),
 });
 export const getRefreshTokenCookieOptions = (): CookieOptions => ({
   ...defaults,
-  expires: thirtyDaysFromNow(),
+  expires: daysFromNow(REFRESH_TOKEN_DURATION_DAYS),
   path: REFRESH_PATH,
 });
 

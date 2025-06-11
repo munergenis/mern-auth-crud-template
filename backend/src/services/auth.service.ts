@@ -1,14 +1,28 @@
-import { MINUTES_RANGE_RATE_LIMIT, RESET_EMAILS_RATE_LIMIT } from '#config/appGlobalConfig.js';
+import {
+  EMAIL_VERIFICATION_CODE_DURATION_DAYS,
+  PASSWORD_RESET_EMAIL_RATE_LIMIT,
+  PASSWORD_RESET_EMAIL_WINDOW_MINUTES,
+  PASSWORD_RESET_VERIFICATION_CODE_DURATION_HOURS,
+  SESSION_DURATION_DAYS,
+  SESSION_REFRESH_THRESHOLD_HOURS,
+} from '#config/appGlobalConfig.js';
 import AppErrorCode from '#constants/appErrorCode.js';
 import { APP_ORIGIN } from '#constants/env.js';
-import { CONFLICT, INTERNAL_SERVER_ERROR, NOT_FOUND, TOO_MANY_REQUESTS, UNAUTHORIZED } from '#constants/http.js';
+import {
+  CONFLICT,
+  // FORBIDDEN,
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+  TOO_MANY_REQUESTS,
+  UNAUTHORIZED,
+} from '#constants/http.js';
 import VerificationCodeType from '#constants/verificationCodeTypes.js';
 import SessionModel, { SessionId } from '#models/session.model.js';
 import UserModel, { UserId } from '#models/user.model.js';
 import VerificationCodeModel from '#models/verificationCode.model.js';
 import appAssert from '#utils/appAssert.js';
 import { hashValue } from '#utils/bcrypt.js';
-import { minutesAgo, ONE_DAY_MS, oneHourFromNow, oneYearFromNow, thirtyDaysFromNow } from '#utils/date.js';
+import { daysFromNow, hoursFromNow, hoursInMs, minutesAgo } from '#utils/date.js';
 import { getPasswordResetTemplate, getVerifyEmailTemplate } from '#utils/emailTemplates.js';
 import { RefreshTokenPayload, refreshTokenSignOptions, signToken, verifyToken } from '#utils/jwt.js';
 import { sendMail } from '#utils/sendMail.js';
@@ -30,7 +44,7 @@ export const createAccount = async (data: CreateAccountParams) => {
 
   // create verification code
   const verificationCode = await VerificationCodeModel.create({
-    expiresAt: oneYearFromNow(),
+    expiresAt: daysFromNow(EMAIL_VERIFICATION_CODE_DURATION_DAYS),
     type: VerificationCodeType.EmailVerification,
     userId,
   });
@@ -75,7 +89,7 @@ export const loginUser = async (data: LoginUserParams) => {
   appAssert(isValid, UNAUTHORIZED, 'Invalid email or password');
 
   // validate is verified
-  // TODO: Just uncomment when verification is implemented ⬆️37
+  // TODO: (extracting globalconfig FORCE_VERIFIED see notes.ignore.md)
   // appAssert(user.verified, FORBIDDEN, 'User is not verified');
 
   // create session
@@ -100,10 +114,10 @@ export const refreshUserAccesssToken = async (refreshToken: string) => {
   const session = await SessionModel.findById(payload.sessionId);
   appAssert(session && session.expiresAt.getTime() > Date.now(), UNAUTHORIZED, 'Session expired');
 
-  // refresh session if it expires in the next 24 hours
-  const sessionNeedsRefresh = session.expiresAt.getTime() - Date.now() <= ONE_DAY_MS;
+  // refresh session if it expires in the SESSION_REFRESH_THRESHOLD from globalconfig
+  const sessionNeedsRefresh = session.expiresAt.getTime() - Date.now() <= hoursInMs(SESSION_REFRESH_THRESHOLD_HOURS);
   if (sessionNeedsRefresh) {
-    session.expiresAt = thirtyDaysFromNow();
+    session.expiresAt = daysFromNow(SESSION_DURATION_DAYS);
     await session.save();
   }
 
@@ -142,16 +156,16 @@ export const sendPasswordResetEmail = async (email: string) => {
 
   // check email rate limit
 
-  const minAgo = minutesAgo(MINUTES_RANGE_RATE_LIMIT);
+  const timeAgo = minutesAgo(PASSWORD_RESET_EMAIL_WINDOW_MINUTES);
   const count = await VerificationCodeModel.countDocuments({
-    createdAt: { $gt: minAgo },
+    createdAt: { $gt: timeAgo },
     type: VerificationCodeType.PasswordReset,
     userId: user._id,
   });
-  appAssert(count < RESET_EMAILS_RATE_LIMIT, TOO_MANY_REQUESTS, 'Too many requests, please try again later');
+  appAssert(count < PASSWORD_RESET_EMAIL_RATE_LIMIT, TOO_MANY_REQUESTS, 'Too many requests, please try again later');
 
   // create verification code
-  const expiresAt = oneHourFromNow();
+  const expiresAt = hoursFromNow(PASSWORD_RESET_VERIFICATION_CODE_DURATION_HOURS);
   const verificationCode = await VerificationCodeModel.create({
     expiresAt,
     type: VerificationCodeType.PasswordReset,
