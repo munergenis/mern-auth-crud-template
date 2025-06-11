@@ -1,13 +1,18 @@
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouterProvider } from './router/BrowserRouterProvider';
-import RoutesProvider from './router/RoutesProvider';
 import { ThemeProvider } from './theme/ThemeProvider';
+import { TastackQueryProvider } from './query/TastackQueryProvider';
+import type { PropsWithChildren } from 'react';
 
-export const AppProviders = () => {
+export const AppProviders = ({ children }: PropsWithChildren) => {
   return (
     <ThemeProvider>
-      <BrowserRouterProvider>
-        <RoutesProvider />
-      </BrowserRouterProvider>
+      <TastackQueryProvider>
+        <BrowserRouterProvider>
+          {children}
+          <ReactQueryDevtools initialIsOpen={false} />
+        </BrowserRouterProvider>
+      </TastackQueryProvider>
     </ThemeProvider>
   );
 };
