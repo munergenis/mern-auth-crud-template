@@ -2,7 +2,7 @@ import { Home } from '@/pages/Home';
 import { AppLayout } from '@/shared/layouts/AppLayout';
 import { Route, Routes } from 'react-router';
 
-const RoutesProvider = () => {
+const AppRoutes = () => {
   return (
     <Routes>
       <Route
@@ -17,4 +17,4 @@ const RoutesProvider = () => {
     </Routes>
   );
 };
-export default RoutesProvider;
+export default AppRoutes;
