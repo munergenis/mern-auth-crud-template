@@ -1,5 +1,5 @@
+import { ThemeToggle } from '@/shared/components/ThemeToggle';
 import { Outlet } from 'react-router';
-import { ThemeToggle } from '../components/ThemeToggle';
 
 export const AppLayout = () => {
   return (
