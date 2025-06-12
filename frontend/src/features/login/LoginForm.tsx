@@ -1,11 +1,22 @@
-import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Link } from 'react-router';
 import type { LoginUser } from '@/interfaces/User';
 import { LoginHeader } from '@/features/login/components/LoginHeader';
+import { useForm } from 'react-hook-form';
+import loginFormSchema, {
+  type LoginFormSchema,
+} from './schema/LoginFormSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 
 interface LoginFormProps {
   onUserSubmit: (loginUser: LoginUser) => void;
@@ -16,12 +27,16 @@ export const LoginForm = ({
   className,
   ...props
 }: LoginFormProps & React.ComponentProps<'div'>) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const form = useForm<LoginFormSchema>({
+    mode: 'onTouched',
+    resolver: zodResolver(loginFormSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const loginUser: LoginUser = { email, password };
+  const onSubmit = (loginUser: LoginFormSchema) => {
     onUserSubmit(loginUser);
   };
 
@@ -30,52 +45,62 @@ export const LoginForm = ({
       className={cn('flex flex-col gap-6', className)}
       {...props}
     >
-      <form onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-6">
-          <LoginHeader />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-6">
-            <div className="grid gap-3">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
+            <LoginHeader />
+            <div className="flex flex-col gap-6">
+              <FormField
+                control={form.control}
                 name="email"
-                type="email"
-                placeholder="m@example.com"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="m@example.com"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
+              <FormField
+                control={form.control}
                 name="password"
-                type="password"
-                placeholder="$welcome123!"
-                required
-                minLength={6}
-                maxLength={100}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="$welcome123!"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
 
-            <Button
-              type="submit"
-              className="w-full"
-            >
-              Login
-            </Button>
-            <Link
-              to={'/password/forgot'}
-              className={buttonVariants({ variant: 'link', size: 'default' })}
-            >
-              Forgot password?
-            </Link>
+              <Button
+                type="submit"
+                className="w-full"
+              >
+                Login
+              </Button>
+              <Link
+                to={'/password/forgot'}
+                className={buttonVariants({ variant: 'link', size: 'default' })}
+              >
+                Forgot password?
+              </Link>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </Form>
     </div>
   );
 };
