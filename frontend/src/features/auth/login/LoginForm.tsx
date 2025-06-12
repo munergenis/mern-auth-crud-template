@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router';
-import type { LoginUser } from '@/interfaces/User';
+import type { LoginUser } from '@/features/auth/interfaces/User';
 import { LoginHeader } from '@/features/auth/login/components/LoginHeader';
 import { useForm } from 'react-hook-form';
 import loginFormSchema, {

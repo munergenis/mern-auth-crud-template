@@ -1,6 +1,6 @@
 import { login } from '@/api/api';
 import { LoginForm } from '@/features/auth/login/LoginForm';
-import type { LoginUser } from '@/interfaces/User';
+import type { LoginUser } from '@/features/auth/interfaces/User';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 

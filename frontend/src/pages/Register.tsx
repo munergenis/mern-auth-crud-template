@@ -1,7 +1,8 @@
 import { RegisterForm } from '@/features/auth/register/RegisterForm';
-import type { RegisterUser } from '@/interfaces/User';
+import type { RegisterUser } from '@/features/auth/interfaces/User';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
+import { register } from '@/api/api';
 
 export const Register = () => {
   const navigate = useNavigate();
