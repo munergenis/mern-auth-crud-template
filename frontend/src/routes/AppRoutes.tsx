@@ -1,33 +1,41 @@
-import { PrivateAppLayout } from '@/layouts/PrivateAppLayout';
-import { PublicAppLayout } from '@/layouts/PublicAppLayout';
+import { HAS_LANDING } from '@/config/appConfig';
+import DashboardLayout from '@/layouts/DashboardLayout';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
 import { Register } from '@/pages/Register';
-import { Route, Routes } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
+
+const Landing = () =>
+  HAS_LANDING ? (
+    <Home />
+  ) : (
+    <Navigate
+      to={'/login'}
+      replace
+    />
+  );
 
 const AppRoutes = () => {
   return (
     <Routes>
       {/* PUBLIC ROUTES */}
-      <Route element={<PublicAppLayout />}>
-        <Route
-          index
-          element={<Home />}
-        />
-        <Route
-          path="login"
-          element={<Login />}
-        />
-        <Route
-          path="register"
-          element={<Register />}
-        />
-      </Route>
+      <Route
+        index
+        element={<Landing />}
+      />
+      <Route
+        path="login"
+        element={<Login />}
+      />
+      <Route
+        path="register"
+        element={<Register />}
+      />
 
       {/* PRIVATE ROUTES */}
-      <Route element={<PrivateAppLayout />}>
+      <Route element={<DashboardLayout />}>
         <Route
-          path="user"
+          path="dashboard"
           element={<div>Here goes private routes</div>}
         />
       </Route>
