@@ -1,5 +1,6 @@
 import { HAS_LANDING } from '@/config/appConfig';
 import DashboardLayout from '@/layouts/DashboardLayout';
+import { RootLayout } from '@/layouts/RootLayout';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
 import { Register } from '@/pages/Register';
@@ -18,26 +19,28 @@ const Landing = () =>
 const AppRoutes = () => {
   return (
     <Routes>
-      {/* PUBLIC ROUTES */}
-      <Route
-        index
-        element={<Landing />}
-      />
-      <Route
-        path="login"
-        element={<Login />}
-      />
-      <Route
-        path="register"
-        element={<Register />}
-      />
-
-      {/* PRIVATE ROUTES */}
-      <Route element={<DashboardLayout />}>
+      <Route element={<RootLayout />}>
+        {/* PUBLIC ROUTES */}
         <Route
-          path="dashboard"
-          element={<div>Here goes private routes</div>}
+          index
+          element={<Landing />}
         />
+        <Route
+          path="login"
+          element={<Login />}
+        />
+        <Route
+          path="register"
+          element={<Register />}
+        />
+
+        {/* PRIVATE ROUTES */}
+        <Route element={<DashboardLayout />}>
+          <Route
+            path="dashboard"
+            element={<div>Here goes private routes</div>}
+          />
+        </Route>
       </Route>
     </Routes>
   );
