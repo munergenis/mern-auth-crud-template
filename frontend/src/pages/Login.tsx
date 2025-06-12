@@ -27,7 +27,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (isError) {
-      toast.error('Error login');
+      toast.error('There was an error');
     }
   }, [isError]);
 

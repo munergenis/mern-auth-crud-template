@@ -17,6 +17,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import 'ldrs/react/NewtonsCradle.css';
+import { Loader } from '@/components/Loader/Loader';
 
 interface LoginFormProps {
   isPending: boolean;
@@ -88,12 +90,14 @@ export const LoginForm = ({
                 )}
               />
 
+              {isPending && <Loader />}
+
               <Button
                 type="submit"
-                className="w-full"
+                className={`w-full ${isPending && 'hidden'}`}
                 disabled={isSubmitButtonDisabled}
               >
-                Login
+                Log in
               </Button>
               <Link
                 to={'/password/forgot'}

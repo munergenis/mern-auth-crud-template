@@ -16,6 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Loader } from '@/components/Loader/Loader';
 
 interface RegisterFormProps {
   isPending: boolean;
@@ -110,9 +111,11 @@ export const RegisterForm = ({
                 )}
               />
 
+              {isPending && <Loader />}
+
               <Button
                 type="submit"
-                className="w-full"
+                className={`w-full ${isPending && 'hidden'}`}
                 disabled={isSubmitButtonDisabled}
               >
                 Register
