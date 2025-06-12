@@ -10,7 +10,6 @@ export const Login = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (user: LoginUser) => {
-    console.log(user);
     signIn(user);
   };
 
