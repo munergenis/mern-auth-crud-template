@@ -1,4 +1,4 @@
-import { RegisterForm } from '@/features/register/RegisterForm';
+import { RegisterForm } from '@/features/auth/register/RegisterForm';
 import type { RegisterUser } from '@/interfaces/User';
 
 export const Register = () => {
