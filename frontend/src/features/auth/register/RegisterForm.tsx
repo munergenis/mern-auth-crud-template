@@ -18,11 +18,13 @@ import {
 } from '@/components/ui/form';
 
 interface RegisterFormProps {
+  isPending: boolean;
   onUserSubmit: (registerUser: RegisterUser) => void;
   className?: string;
 }
 
 export const RegisterForm = ({
+  isPending,
   onUserSubmit,
   className,
   ...props
@@ -36,6 +38,7 @@ export const RegisterForm = ({
       confirmPassword: '',
     },
   });
+  const isSubmitButtonDisabled = !form.formState.isValid || isPending;
 
   const onSubmit = (registerUser: RegisterFormSchema) => {
     onUserSubmit(registerUser);
@@ -110,6 +113,7 @@ export const RegisterForm = ({
               <Button
                 type="submit"
                 className="w-full"
+                disabled={isSubmitButtonDisabled}
               >
                 Register
               </Button>

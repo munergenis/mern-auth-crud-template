@@ -19,10 +19,12 @@ import {
 } from '@/components/ui/form';
 
 interface LoginFormProps {
+  isPending: boolean;
   onUserSubmit: (loginUser: LoginUser) => void;
 }
 
 export const LoginForm = ({
+  isPending,
   onUserSubmit,
   className,
   ...props
@@ -35,6 +37,7 @@ export const LoginForm = ({
       password: '',
     },
   });
+  const isSubmitButtonDisabled = !form.formState.isValid || isPending;
 
   const onSubmit = (loginUser: LoginFormSchema) => {
     onUserSubmit(loginUser);
@@ -88,6 +91,7 @@ export const LoginForm = ({
               <Button
                 type="submit"
                 className="w-full"
+                disabled={isSubmitButtonDisabled}
               >
                 Login
               </Button>
