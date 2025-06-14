@@ -1,8 +1,8 @@
-import { login } from '@/api/api';
 import type { ApiError } from '@/api/lib/ApiError';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
+import { login } from '../actions/login';
 
 export const useLogin = () => {
   const navigate = useNavigate();

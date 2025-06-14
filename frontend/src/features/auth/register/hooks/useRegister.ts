@@ -1,8 +1,8 @@
-import { register } from '@/api/api';
 import type { ApiError } from '@/api/lib/ApiError';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
+import { register } from '../actions/register';
 
 export const useRegister = () => {
   const navigate = useNavigate();
