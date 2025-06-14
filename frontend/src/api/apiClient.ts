@@ -10,8 +10,14 @@ const API = axios.create(options);
 API.interceptors.response.use(
   (response) => response.data,
   (error) => {
-    const { status, data } = error.response;
-    return Promise.reject({ status, ...data });
+    if (error) {
+      const status: number = (error.response && error.response.status) ?? 500;
+      const data: Record<string, string> =
+        (error.response && error.response.data) ?? {};
+      return Promise.reject({ status, ...data });
+    } else {
+      return Promise.reject({ status: 500 });
+    }
   }
 );
 
