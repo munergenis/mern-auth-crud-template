@@ -30,10 +30,10 @@ export const registerHandler = catchErrors(async (req, res) => {
   });
 
   // call service
-  const { accessToken, refreshToken, user } = await createAccount(requestData);
+  const { email } = await createAccount(requestData);
 
   // return response
-  setAuthCookies({ accessToken, refreshToken, res }).status(CREATED).json(user);
+  res.status(CREATED).json(email);
   return;
 });
 

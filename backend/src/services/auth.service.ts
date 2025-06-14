@@ -10,6 +10,7 @@ import AppErrorCode from '#constants/appErrorCode.js';
 import { APP_ORIGIN } from '#constants/env.js';
 import {
   CONFLICT,
+  FORBIDDEN,
   // FORBIDDEN,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
@@ -34,13 +35,27 @@ export interface CreateAccountParams {
 }
 
 export const createAccount = async (data: CreateAccountParams) => {
-  // verify user doesn't exist (by email)
-  const existingUser = await UserModel.exists({ email: data.email });
-  appAssert(!existingUser, CONFLICT, 'User already exists');
+  // verify user doesn't exist or it's not verified (by email)
+  const existingUser = await UserModel.findOne({ email: data.email });
+  const isExistingAndVerifiedUser = existingUser !== null && existingUser.verified === true;
+  appAssert(!isExistingAndVerifiedUser, CONFLICT, 'User already exists');
 
-  // create user
-  const user = await UserModel.create({ email: data.email, password: data.password });
-  const userId = user._id as UserId;
+  let userId: UserId;
+  let userEmail: string;
+
+  if (!existingUser) {
+    // create user
+    const user = await UserModel.create({ email: data.email, password: data.password });
+    userId = user._id as UserId;
+    userEmail = user.email;
+  } else {
+    // use existing user
+    userId = existingUser._id as UserId;
+    userEmail = existingUser.email;
+  }
+
+  // delete previous email verification codes for this user
+  await VerificationCodeModel.deleteMany({ type: VerificationCodeType.EmailVerification, userId });
 
   // create verification code
   const verificationCode = await VerificationCodeModel.create({
@@ -53,23 +68,12 @@ export const createAccount = async (data: CreateAccountParams) => {
   const url = `${APP_ORIGIN}/email/verify/${verificationCode._id}`;
   const { error } = await sendMail({
     ...getVerifyEmailTemplate(url),
-    to: user.email,
+    to: userEmail,
   });
   if (error) console.error(error);
 
-  // create session
-  const session = await SessionModel.create({ userAgent: data.userAgent, userId });
-  const sessionId = session._id as SessionId;
-
-  // sign access token & refresh token
-  const refreshTokenPayload = { sessionId };
-  const refreshToken = signToken(refreshTokenPayload, refreshTokenSignOptions);
-
-  const accessTokenPayload = { sessionId, userId };
-  const accessToken = signToken(accessTokenPayload);
-
-  // return user & tokens
-  return { accessToken, refreshToken, user: user.omitPassword() };
+  // return userEmail
+  return { email: userEmail };
 };
 
 export interface LoginUserParams {
@@ -89,8 +93,7 @@ export const loginUser = async (data: LoginUserParams) => {
   appAssert(isValid, UNAUTHORIZED, 'Invalid email or password');
 
   // validate is verified
-  // TODO: (extracting globalconfig FORCE_VERIFIED see notes.ignore.md)
-  // appAssert(user.verified, FORBIDDEN, 'User is not verified');
+  appAssert(user.verified, FORBIDDEN, 'User is not verified');
 
   // create session
   const session = await SessionModel.create({ userAgent: data.userAgent, userId });
@@ -142,8 +145,8 @@ export const verifyEmail = async (code: string) => {
   const updatedUser = await UserModel.findByIdAndUpdate(validCode.userId, { verified: true }, { new: true });
   appAssert(updatedUser, INTERNAL_SERVER_ERROR, 'Failed to verify email');
 
-  // delete verification code
-  await validCode.deleteOne();
+  // delete all email verification codes for this user
+  await VerificationCodeModel.deleteMany({ type: VerificationCodeType.EmailVerification, userId: validCode.userId });
 
   // return user
   return { user: updatedUser.omitPassword() };
@@ -211,8 +214,8 @@ export const resetPassword = async (data: ResetPasswordParams) => {
   );
   appAssert(user, INTERNAL_SERVER_ERROR, 'Failed to reset password');
 
-  // delete verification code
-  await verificationCode.deleteOne();
+  // delete all password reset codes for this user
+  await VerificationCodeModel.deleteMany({ type: VerificationCodeType.PasswordReset, userId: user._id });
 
   // delete all sessions
   await SessionModel.deleteMany({ userId: user._id });
