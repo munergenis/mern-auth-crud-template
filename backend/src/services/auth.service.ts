@@ -71,8 +71,15 @@ export const createAccount = async (data: CreateAccountParams) => {
     'Too many verification requests, please try again later',
   );
 
-  // delete previous email verification codes for this user
-  await VerificationCodeModel.deleteMany({ type: VerificationCodeType.EmailVerification, userId });
+  // Invalidate previous valid email verification codes for this user
+  await VerificationCodeModel.updateMany(
+    {
+      expiresAt: { $gt: new Date() },
+      type: VerificationCodeType.EmailVerification,
+      userId,
+    },
+    { $set: { expiresAt: new Date() } },
+  );
 
   // create verification code
   const verificationCode = await VerificationCodeModel.create({
