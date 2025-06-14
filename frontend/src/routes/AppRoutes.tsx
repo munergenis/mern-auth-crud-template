@@ -1,5 +1,6 @@
 import { HAS_LANDING } from '@/config/appConfig';
 import DashboardLayout from '@/layouts/DashboardLayout';
+import { PublicLayout } from '@/layouts/PublicLayout';
 import { RootLayout } from '@/layouts/RootLayout';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
@@ -21,6 +22,7 @@ const AppRoutes = () => {
     <Routes>
       <Route element={<RootLayout />}>
         {/* PUBLIC ROUTES */}
+<Route element={<PublicLayout />}>
         <Route
           index
           element={<Landing />}
@@ -42,6 +44,7 @@ const AppRoutes = () => {
           />
         </Route>
 
+{/* NOT_FOUND REDIRECT */}
         <Route
           path="*"
           element={
