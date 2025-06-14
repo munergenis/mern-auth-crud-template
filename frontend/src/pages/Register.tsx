@@ -1,41 +1,19 @@
 import { RegisterForm } from '@/features/auth/register/RegisterForm';
 import type { RegisterUser } from '@/features/auth/interfaces/User';
-import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router';
-import { register } from '@/api/api';
-import { useEffect } from 'react';
-import { toast } from 'sonner';
+import { useRegister } from '@/features/auth/register/hooks/useRegister';
 
 export const Register = () => {
-  const navigate = useNavigate();
+  const { registerMutation } = useRegister();
 
   const handleSubmit = (user: RegisterUser) => {
-    signUp(user);
+    registerMutation.mutate(user);
   };
-
-  const {
-    mutate: signUp,
-    isPending,
-    isError,
-  } = useMutation({
-    mutationKey: ['register'],
-    mutationFn: register,
-    onSuccess: () => {
-      navigate('/dashboard', { replace: true });
-    },
-  });
-
-  useEffect(() => {
-    if (isError) {
-      toast.error('There was an error');
-    }
-  }, [isError]);
 
   return (
     <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
       <div className="w-full max-w-sm">
         <RegisterForm
-          isPending={isPending}
+          isPending={registerMutation.isPending}
           onUserSubmit={handleSubmit}
         />
       </div>
