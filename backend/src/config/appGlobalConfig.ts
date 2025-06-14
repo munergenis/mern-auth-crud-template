@@ -4,6 +4,12 @@ export const PASSWORD_RESET_EMAIL_RATE_LIMIT = 2;
 // Time window (in minutes) during which the password reset email rate limit applies per user
 export const PASSWORD_RESET_EMAIL_WINDOW_MINUTES = 5;
 
+// Maximum number of email verification emails allowed per user within the defined time window
+export const EMAIL_VERIFICATION_EMAIL_RATE_LIMIT = 3;
+
+// Time window (in minutes) during which the email verification email rate limit applies per user
+export const EMAIL_VERIFICATION_EMAIL_WINDOW_MINUTES = 10;
+
 // Number of days a session remains valid before expiring
 export const SESSION_DURATION_DAYS = 30;
 

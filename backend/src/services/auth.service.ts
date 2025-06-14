@@ -1,5 +1,7 @@
 import {
   EMAIL_VERIFICATION_CODE_DURATION_DAYS,
+  EMAIL_VERIFICATION_EMAIL_RATE_LIMIT,
+  EMAIL_VERIFICATION_EMAIL_WINDOW_MINUTES,
   PASSWORD_RESET_EMAIL_RATE_LIMIT,
   PASSWORD_RESET_EMAIL_WINDOW_MINUTES,
   PASSWORD_RESET_VERIFICATION_CODE_DURATION_HOURS,
@@ -55,6 +57,19 @@ export const createAccount = async (data: CreateAccountParams) => {
     userId = existingUser._id as UserId;
     userEmail = existingUser.email;
   }
+
+  // rate limit for email verification codes
+  const verificationTimeAgo = minutesAgo(EMAIL_VERIFICATION_EMAIL_WINDOW_MINUTES);
+  const verificationCount = await VerificationCodeModel.countDocuments({
+    createdAt: { $gt: verificationTimeAgo },
+    type: VerificationCodeType.EmailVerification,
+    userId,
+  });
+  appAssert(
+    verificationCount < EMAIL_VERIFICATION_EMAIL_RATE_LIMIT,
+    TOO_MANY_REQUESTS,
+    'Too many verification requests, please try again later',
+  );
 
   // delete previous email verification codes for this user
   await VerificationCodeModel.deleteMany({ type: VerificationCodeType.EmailVerification, userId });
