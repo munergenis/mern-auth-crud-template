@@ -49,7 +49,9 @@ export const createAccount = async (data: CreateAccountParams) => {
     userId = user._id as UserId;
     userEmail = user.email;
   } else {
-    // use existing user
+    // update password if user exists but is not verified
+    existingUser.set('password', data.password);
+    await existingUser.save();
     userId = existingUser._id as UserId;
     userEmail = existingUser.email;
   }
