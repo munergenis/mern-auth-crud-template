@@ -41,6 +41,16 @@ const AppRoutes = () => {
             element={<div>Here goes private routes</div>}
           />
         </Route>
+
+        <Route
+          path="*"
+          element={
+            <Navigate
+              to={'/'}
+              replace
+            />
+          }
+        />
       </Route>
     </Routes>
   );
