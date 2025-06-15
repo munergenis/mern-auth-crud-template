@@ -10,7 +10,7 @@ export const Register = () => {
   };
 
   return (
-    <div className="w-full max-w-sm">
+    <div className="w-full h-full max-w-sm m-auto">
       <RegisterForm
         isPending={registerMutation.isPending}
         onUserSubmit={handleSubmit}

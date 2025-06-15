@@ -10,7 +10,7 @@ export const Login = () => {
   };
 
   return (
-    <div className="w-full max-w-sm">
+    <div className="w-full h-full max-w-sm m-auto">
       <LoginForm
         isPending={loginMutation.isPending}
         onUserSubmit={handleSubmit}
