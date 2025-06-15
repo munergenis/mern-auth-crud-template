@@ -1,5 +1,5 @@
 import API from '@/api/apiClient';
-import type { LoginUser } from '../../interfaces/User';
+import type { LoginResponse, LoginUser } from '../../interfaces/Auth';
 
 export const login = async (data: LoginUser) =>
-  API.post<LoginUser>('/auth/login', data);
+  API.post<LoginResponse>('/auth/login', data);

@@ -1,5 +1,5 @@
 import { RegisterForm } from '@/features/auth/register/RegisterForm';
-import type { RegisterUser } from '@/features/auth/interfaces/User';
+import type { RegisterUser } from '@/features/auth/interfaces/Auth';
 import { useRegister } from '@/features/auth/register/hooks/useRegister';
 
 export const Register = () => {

@@ -1,5 +1,5 @@
 import { LoginForm } from '@/features/auth/login/LoginForm';
-import type { LoginUser } from '@/features/auth/interfaces/User';
+import type { LoginUser } from '@/features/auth/interfaces/Auth';
 import { useLogin } from '@/features/auth/login/hooks/useLogin';
 
 export const Login = () => {
