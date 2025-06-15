@@ -180,9 +180,9 @@ export const sendPasswordResetEmail = async (email: string) => {
   // get user by email
   const user = await UserModel.findOne({ email });
   appAssert(user, NOT_FOUND, 'User not found');
+  appAssert(user.verified, FORBIDDEN, 'User is not verified');
 
   // check email rate limit
-
   const timeAgo = minutesAgo(PASSWORD_RESET_EMAIL_WINDOW_MINUTES);
   const count = await VerificationCodeModel.countDocuments({
     createdAt: { $gt: timeAgo },
