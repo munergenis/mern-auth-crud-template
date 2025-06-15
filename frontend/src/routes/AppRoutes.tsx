@@ -2,6 +2,7 @@ import { HAS_LANDING } from '@/config/appConfig';
 import DashboardLayout from '@/layouts/DashboardLayout';
 import { PublicLayout } from '@/layouts/PublicLayout';
 import { RootLayout } from '@/layouts/RootLayout';
+import { ForgotPassword } from '@/pages/ForgotPassword';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
 import { Register } from '@/pages/Register';
@@ -39,6 +40,10 @@ const AppRoutes = () => {
           <Route
             path="email/verify/:code"
             element={<VerifyEmail />}
+          />
+          <Route
+            path="password/forgot"
+            element={<ForgotPassword />}
           />
         </Route>
 

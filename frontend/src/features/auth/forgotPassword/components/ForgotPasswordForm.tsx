@@ -1,13 +1,7 @@
 import { cn } from '@/lib/utils';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Link } from 'react-router';
-import type { LoginUser } from '@/features/auth/interfaces/Auth';
-import { LoginHeader } from '@/features/auth/login/components/LoginHeader';
 import { useForm } from 'react-hook-form';
-import loginFormSchema, {
-  type LoginFormSchema,
-} from './schema/LoginFormSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
@@ -17,31 +11,37 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import 'ldrs/react/NewtonsCradle.css';
 import { Loader } from '@/components/Loader/Loader';
+import {
+  forgotPasswordFormSchema,
+  type ForgotPasswordFormSchema,
+} from '../schema/ForgotPasswordFormSchema';
+import { ForgotPasswordHeader } from './ForgotPasswordHeader';
+import { GoBackSection } from './GoBackSection';
 
-interface LoginFormProps {
+interface ForgotPasswordFormProps {
   isPending: boolean;
-  onUserSubmit: (loginUser: LoginUser) => void;
+  onUserSubmit: (formData: ForgotPasswordFormSchema) => void;
 }
 
-export const LoginForm = ({
+export const ForgotPasswordForm = ({
   isPending,
   onUserSubmit,
   className,
   ...props
-}: LoginFormProps & React.ComponentProps<'div'>) => {
-  const form = useForm<LoginFormSchema>({
+}: ForgotPasswordFormProps & React.ComponentProps<'div'>) => {
+  const form = useForm<ForgotPasswordFormSchema>({
     mode: 'onTouched',
-    resolver: zodResolver(loginFormSchema),
+    resolver: zodResolver(forgotPasswordFormSchema),
     defaultValues: {
       email: '',
-      password: '',
     },
   });
   const isSubmitButtonDisabled = !form.formState.isValid || isPending;
 
-  const onSubmit = (loginUser: LoginFormSchema) => {
-    onUserSubmit(loginUser);
+  const onSubmit = (formData: ForgotPasswordFormSchema) => {
+    onUserSubmit(formData);
   };
 
   return (
@@ -52,7 +52,7 @@ export const LoginForm = ({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-6">
-            <LoginHeader />
+            <ForgotPasswordHeader />
             <div className="flex flex-col gap-6">
               <FormField
                 control={form.control}
@@ -71,23 +71,6 @@ export const LoginForm = ({
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="$welcome123!"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
 
               {isPending && <Loader />}
 
@@ -96,15 +79,11 @@ export const LoginForm = ({
                 className={`w-full ${isPending && 'hidden'}`}
                 disabled={isSubmitButtonDisabled}
               >
-                Log in
+                Reset password
               </Button>
-              <Link
-                to={'/password/forgot'}
-                className={buttonVariants({ variant: 'link', size: 'default' })}
-              >
-                Forgot password?
-              </Link>
             </div>
+
+            <GoBackSection />
           </div>
         </form>
       </Form>
