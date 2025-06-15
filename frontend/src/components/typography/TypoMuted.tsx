@@ -1,7 +1,12 @@
+import type { ReactNode } from 'react';
+
 interface TypoMutedProps {
-  children: string;
+  className?: string;
+  children: ReactNode;
 }
 
-export const TypoMuted = ({ children }: TypoMutedProps) => {
-  return <p className="text-muted-foreground text-sm">{children}</p>;
+export const TypoMuted = ({ children, className }: TypoMutedProps) => {
+  return (
+    <p className={`text-muted-foreground text-sm ${className}`}>{children}</p>
+  );
 };
