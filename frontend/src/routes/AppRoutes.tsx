@@ -5,6 +5,7 @@ import { RootLayout } from '@/layouts/RootLayout';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
 import { Register } from '@/pages/Register';
+import { VerifyEmail } from '@/pages/VerifyEmail';
 import { Navigate, Route, Routes } from 'react-router';
 
 const Landing = () =>
@@ -22,19 +23,24 @@ const AppRoutes = () => {
     <Routes>
       <Route element={<RootLayout />}>
         {/* PUBLIC ROUTES */}
-<Route element={<PublicLayout />}>
-        <Route
-          index
-          element={<Landing />}
-        />
-        <Route
-          path="login"
-          element={<Login />}
-        />
-        <Route
-          path="register"
-          element={<Register />}
-        />
+        <Route element={<PublicLayout />}>
+          <Route
+            index
+            element={<Landing />}
+          />
+          <Route
+            path="login"
+            element={<Login />}
+          />
+          <Route
+            path="register"
+            element={<Register />}
+          />
+          <Route
+            path="email/verify/:code"
+            element={<VerifyEmail />}
+          />
+        </Route>
 
         {/* PRIVATE ROUTES */}
         <Route element={<DashboardLayout />}>
@@ -44,7 +50,7 @@ const AppRoutes = () => {
           />
         </Route>
 
-{/* NOT_FOUND REDIRECT */}
+        {/* NOT_FOUND REDIRECT */}
         <Route
           path="*"
           element={
