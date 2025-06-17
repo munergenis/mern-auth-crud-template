@@ -3,12 +3,12 @@ import { TypoLead } from '@/components/typography/TypoLead';
 import { TypoMuted } from '@/components/typography/TypoMuted';
 import { sendPasswordResetEmail } from '@/features/auth/forgotPassword/actions/sendPasswordResetEmail';
 import { ForgotPasswordForm } from '@/features/auth/forgotPassword/components/ForgotPasswordForm';
-import type { ResetPasswordData } from '@/features/auth/interfaces/Auth';
+import type { ForgotPasswordData } from '@/features/auth/interfaces/Auth';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 export const ForgotPassword = () => {
-  const handleSubmit = (data: ResetPasswordData) => {
+  const handleSubmit = (data: ForgotPasswordData) => {
     forgotPasswordMutation.mutate(data);
   };
 

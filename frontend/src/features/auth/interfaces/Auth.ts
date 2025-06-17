@@ -19,6 +19,6 @@ export interface RegisterUser {
   password: string;
   confirmPassword: string;
 }
-export interface ResetPasswordData {
+export interface ForgotPasswordData {
   email: string;
 }
