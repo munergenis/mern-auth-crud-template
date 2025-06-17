@@ -5,6 +5,9 @@ export interface LoginResponse {
 export interface RegisterResponse {
   email: string;
 }
+export interface ForgotPasswordResponse {
+  message: string;
+}
 export interface ResetPasswordResponse {
   message: string;
 }
@@ -21,4 +24,8 @@ export interface RegisterUser {
 }
 export interface ForgotPasswordData {
   email: string;
+}
+export interface ResetPasswordData {
+  password: string;
+  verificationCode: string;
 }

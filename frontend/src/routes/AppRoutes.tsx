@@ -6,6 +6,7 @@ import { ForgotPassword } from '@/pages/ForgotPassword';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
 import { Register } from '@/pages/Register';
+import { ResetPassword } from '@/pages/ResetPassword';
 import { VerifyEmail } from '@/pages/VerifyEmail';
 import { Navigate, Route, Routes } from 'react-router';
 
@@ -44,6 +45,10 @@ const AppRoutes = () => {
           <Route
             path="password/forgot"
             element={<ForgotPassword />}
+          />
+          <Route
+            path="password/reset"
+            element={<ResetPassword />}
           />
         </Route>
 
