@@ -34,8 +34,6 @@ export const ResetPassword = () => {
   });
 
   const handleSubmit = (formData: ResetPasswordFormSchema) => {
-    console.log(formData.password);
-    console.log(code);
     resetPasswordMutation.mutate({
       password: formData.password,
       verificationCode: code!,
