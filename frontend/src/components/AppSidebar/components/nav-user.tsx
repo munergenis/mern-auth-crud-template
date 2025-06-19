@@ -1,15 +1,7 @@
-'use client';
+import { ChevronsUpDown, User as UserIcon } from 'lucide-react';
+import { Link } from 'react-router';
 
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Sparkles,
-} from 'lucide-react';
-
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,21 +17,64 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { useLogout } from '@/features/auth/hooks/useLogout';
+import { userMenuOptions, type UserMenuOption } from '@/config/appConfig';
+import type { User } from '@/features/auth/interfaces/Auth';
+
+// Helper to render user menu options grouped by 'group'
+function renderUserMenuOptions(
+  options: UserMenuOption[],
+  logoutAction: () => void
+) {
+  // Agrupar por grupo
+  const groups = options.reduce<Record<string, typeof userMenuOptions>>(
+    (acc, opt) => {
+      if (!acc[opt.group]) acc[opt.group] = [];
+      acc[opt.group].push(opt);
+      return acc;
+    },
+    {}
+  );
+  const groupKeys = Object.keys(groups);
+  return groupKeys.map((group, idx) => (
+    <>
+      <DropdownMenuGroup key={group}>
+        {groups[group].map((opt) => (
+          <DropdownMenuItem
+            key={opt.label}
+            asChild={!!opt.route}
+            onClick={opt.group === 'logout' ? () => logoutAction() : undefined}
+          >
+            {opt.route ? (
+              <Link to={opt.route}>
+                <opt.icon />
+                {opt.label}
+              </Link>
+            ) : (
+              <>
+                <opt.icon />
+                {opt.label}
+              </>
+            )}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuGroup>
+      {idx < groupKeys.length - 1 && (
+        <DropdownMenuSeparator key={group + '-sep'} />
+      )}
+    </>
+  ));
+}
 
 export function NavUser({
   user,
+  logoutAction,
 }: {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
+  user: User;
+  logoutAction: () => void;
 }) {
   const { isMobile } = useSidebar();
 
   // TODO: Remove or refactor when DashboardLayout is ok
-  const { logoutMutation } = useLogout();
 
   return (
     <SidebarMenu>
@@ -50,15 +85,13 @@ export function NavUser({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage
-                  src={user.avatar}
-                  alt={user.name}
-                />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+              <Avatar className="h-8 w-8 flex items-center justify-center rounded-lg">
+                <UserIcon />
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate font-medium">
+                  {user.email.split('@')[0]}
+                </span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
@@ -72,46 +105,19 @@ export function NavUser({
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage
-                    src={user.avatar}
-                    alt={user.name}
-                  />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <Avatar className="h-8 w-8 flex items-center justify-center rounded-lg">
+                  <UserIcon />
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
+                  <span className="truncate font-medium">
+                    {user.email.split('@')[0]}
+                  </span>
                   <span className="truncate text-xs">{user.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => logoutMutation.mutate()}>
-              <LogOut />
-              Log out
-            </DropdownMenuItem>
+            {renderUserMenuOptions(userMenuOptions, logoutAction)}
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

@@ -23,6 +23,8 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar';
+import { useAuth } from '@/features/auth/hooks/useAuth';
+import { useLogout } from '@/features/auth/hooks/useLogout';
 
 // This is sample data.
 const data = {
@@ -155,6 +157,14 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const {
+    userAuthQuery: { data: user },
+  } = useAuth();
+
+  const {
+    logoutMutation: { mutate: logout },
+  } = useLogout();
+
   return (
     <Sidebar
       collapsible="icon"
@@ -168,7 +178,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser
+          user={user!}
+          logoutAction={logout}
+        />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
