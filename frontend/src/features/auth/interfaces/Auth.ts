@@ -8,6 +8,9 @@ export interface RegisterResponse {
 export interface ForgotPasswordResponse {
   message: string;
 }
+export interface VerifyEmailResponse {
+  message: string;
+}
 export interface ResetPasswordResponse {
   message: string;
 }

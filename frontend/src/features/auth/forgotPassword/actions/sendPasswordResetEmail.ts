@@ -5,4 +5,4 @@ import type {
 } from '../../interfaces/Auth';
 
 export const sendPasswordResetEmail = async (data: ForgotPasswordData) =>
-  API.post<ForgotPasswordResponse>('/auth/password/forgot', data);
+  API.post<never, ForgotPasswordResponse>('/auth/password/forgot', data);

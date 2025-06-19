@@ -5,4 +5,4 @@ import type {
 } from '../../interfaces/Auth';
 
 export const resetPassword = async (data: ResetPasswordData) =>
-  API.post<ResetPasswordResponse>('/auth/password/reset', data);
+  API.post<never, ResetPasswordResponse>('/auth/password/reset', data);
