@@ -1,4 +1,10 @@
-import { BadgeCheck, Bell, CreditCard, LogOut, Sparkles } from 'lucide-react';
+import {
+  BadgeCheck,
+  // Bell,
+  // CreditCard,
+  LogOut,
+  Sparkles,
+} from 'lucide-react';
 
 export const HAS_LANDING = true;
 
@@ -11,29 +17,41 @@ export interface UserMenuOption {
 
 export const userMenuOptions: UserMenuOption[] = [
   {
-    label: 'Upgrade to Pro',
+    label: 'Some Main Options',
     icon: Sparkles,
-    route: undefined,
+    route: '/options',
     group: 'main',
   },
+  // {
+  //   label: 'Upgrade to Pro',
+  //   icon: Sparkles,
+  //   route: undefined,
+  //   group: 'main',
+  // },
   {
-    label: 'Account',
+    label: 'Sessions',
     icon: BadgeCheck,
-    route: '/account',
+    route: '/sessions',
     group: 'secondary',
   },
-  {
-    label: 'Billing',
-    icon: CreditCard,
-    route: '/billing',
-    group: 'secondary',
-  },
-  {
-    label: 'Notifications',
-    icon: Bell,
-    route: '/notifications',
-    group: 'secondary',
-  },
+  // {
+  //   label: 'Account',
+  //   icon: BadgeCheck,
+  //   route: '/account',
+  //   group: 'secondary',
+  // },
+  // {
+  //   label: 'Billing',
+  //   icon: CreditCard,
+  //   route: '/billing',
+  //   group: 'secondary',
+  // },
+  // {
+  //   label: 'Notifications',
+  //   icon: Bell,
+  //   route: '/notifications',
+  //   group: 'secondary',
+  // },
   // DO NOT EDIT (only label or icon)
   {
     label: 'Log out',
