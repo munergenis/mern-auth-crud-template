@@ -9,6 +9,8 @@ import { Register } from '@/pages/Register';
 import { ResetPassword } from '@/pages/ResetPassword';
 import { VerifyEmail } from '@/pages/VerifyEmail';
 import { Navigate, Route, Routes } from 'react-router';
+import { AuthGuard } from './AuthGuard';
+import { VerifyEmailInfo } from '@/pages/VerifyEmailInfo';
 
 const Landing = () =>
   HAS_LANDING ? (
@@ -39,6 +41,10 @@ const AppRoutes = () => {
             element={<Register />}
           />
           <Route
+            path="email/verify"
+            element={<VerifyEmailInfo />}
+          />
+          <Route
             path="email/verify/:code"
             element={<VerifyEmail />}
           />
@@ -53,11 +59,17 @@ const AppRoutes = () => {
         </Route>
 
         {/* PRIVATE ROUTES */}
-        <Route element={<DashboardLayout />}>
-          <Route
-            path="dashboard"
-            element={<div>Here goes private routes</div>}
-          />
+        <Route element={<AuthGuard />}>
+          <Route element={<DashboardLayout />}>
+            <Route
+              path="dashboard"
+              element={<div>Here goes private routes</div>}
+            />
+            <Route
+              path="hola"
+              element={<div>hola route</div>}
+            />
+          </Route>
         </Route>
 
         {/* NOT_FOUND REDIRECT */}

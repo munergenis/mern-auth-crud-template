@@ -1,8 +1,20 @@
 import { LoginForm } from '@/features/auth/login/LoginForm';
 import type { LoginUser } from '@/features/auth/interfaces/Auth';
 import { useLogin } from '@/features/auth/login/hooks/useLogin';
+import { useAuth } from '@/features/auth/hooks/useAuth';
+import { useNavigate } from 'react-router';
+import { useEffect } from 'react';
 
 export const Login = () => {
+  const navigate = useNavigate();
+  const { userAuthQuery } = useAuth();
+
+  useEffect(() => {
+    if (userAuthQuery.data) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [userAuthQuery, navigate]);
+
   const { loginMutation } = useLogin();
 
   const handleSubmit = (user: LoginUser) => {

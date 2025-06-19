@@ -10,7 +10,7 @@ export const useRegister = () => {
   const registerMutation = useMutation({
     mutationFn: register,
     onSuccess: () => {
-      navigate('/dashboard', { replace: true });
+      navigate('/login', { replace: true });
     },
     onError: (error: ApiError) => {
       const message =

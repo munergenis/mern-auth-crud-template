@@ -11,6 +11,9 @@ export interface ForgotPasswordResponse {
 export interface ResetPasswordResponse {
   message: string;
 }
+export interface LogoutResponse {
+  message: string;
+}
 
 // REQUESTS
 export interface LoginUser {
