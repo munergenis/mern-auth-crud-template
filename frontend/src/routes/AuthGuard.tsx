@@ -5,6 +5,8 @@ import { Navigate, Outlet } from 'react-router';
 export const AuthGuard = () => {
   const { userAuthQuery } = useAuth();
 
+  const user = userAuthQuery.data;
+
   return (
     <>
       {userAuthQuery.isLoading && (
@@ -13,7 +15,7 @@ export const AuthGuard = () => {
         </div>
       )}
 
-      {userAuthQuery.isSuccess && userAuthQuery.data && <Outlet />}
+      {userAuthQuery.isSuccess && user && <Outlet />}
 
       {userAuthQuery.isError && (
         <Navigate

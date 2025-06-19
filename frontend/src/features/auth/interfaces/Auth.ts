@@ -14,6 +14,13 @@ export interface ResetPasswordResponse {
 export interface LogoutResponse {
   message: string;
 }
+export interface User {
+  createdAt: Date;
+  email: string;
+  updatedAt: Date;
+  verified: boolean;
+  _id: string;
+}
 
 // REQUESTS
 export interface LoginUser {
