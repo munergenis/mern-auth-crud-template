@@ -2,15 +2,16 @@ import { HAS_LANDING } from '@/config/appConfig';
 import DashboardLayout from '@/layouts/DashboardLayout';
 import { PublicLayout } from '@/layouts/PublicLayout';
 import { RootLayout } from '@/layouts/RootLayout';
-import { ForgotPassword } from '@/pages/ForgotPassword';
-import { Home } from '@/pages/Home';
-import { Login } from '@/pages/Login';
-import { Register } from '@/pages/Register';
-import { ResetPassword } from '@/pages/ResetPassword';
-import { VerifyEmail } from '@/pages/VerifyEmail';
+import { ForgotPassword } from '@/pages/public/ForgotPassword';
+import { Home } from '@/pages/public/Home';
+import { Login } from '@/pages/public/Login';
+import { Register } from '@/pages/public/Register';
+import { ResetPassword } from '@/pages/public/ResetPassword';
+import { VerifyEmail } from '@/pages/public/VerifyEmail';
 import { Navigate, Route, Routes } from 'react-router';
 import { AuthGuard } from './AuthGuard';
-import { VerifyEmailInfo } from '@/pages/VerifyEmailInfo';
+import { VerifyEmailInfo } from '@/pages/public/VerifyEmailInfo';
+import { Sessions } from '@/pages/private/Sessions';
 
 const Landing = () =>
   HAS_LANDING ? (
