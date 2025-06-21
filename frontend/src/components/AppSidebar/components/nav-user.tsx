@@ -36,8 +36,8 @@ function renderUserMenuOptions(
   );
   const groupKeys = Object.keys(groups);
   return groupKeys.map((group, idx) => (
-    <>
-      <DropdownMenuGroup key={group}>
+    <div key={group}>
+      <DropdownMenuGroup>
         {groups[group].map((opt) => (
           <DropdownMenuItem
             key={opt.label}
@@ -61,7 +61,7 @@ function renderUserMenuOptions(
       {idx < groupKeys.length - 1 && (
         <DropdownMenuSeparator key={group + '-sep'} />
       )}
-    </>
+    </div>
   ));
 }
 
