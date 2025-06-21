@@ -1,5 +1,5 @@
 import { LoginForm } from '@/features/auth/login/LoginForm';
-import type { LoginUser } from '@/features/auth/interfaces/Auth';
+import type { LoginUserRequest } from '@/features/auth/interfaces/Auth';
 import { useLogin } from '@/features/auth/login/hooks/useLogin';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { useNavigate } from 'react-router';
@@ -17,7 +17,7 @@ export const Login = () => {
 
   const { loginMutation } = useLogin();
 
-  const handleSubmit = (user: LoginUser) => {
+  const handleSubmit = (user: LoginUserRequest) => {
     loginMutation.mutate(user);
   };
 

@@ -1,5 +1,5 @@
 import { RegisterForm } from '@/features/auth/register/RegisterForm';
-import type { RegisterUser } from '@/features/auth/interfaces/Auth';
+import type { RegisterUserRequest } from '@/features/auth/interfaces/Auth';
 import { useRegister } from '@/features/auth/register/hooks/useRegister';
 import { useNavigate } from 'react-router';
 import { useAuth } from '@/features/auth/hooks/useAuth';
@@ -16,7 +16,7 @@ export const Register = () => {
     }
   }, [userAuthQuery, navigate]);
 
-  const handleSubmit = (user: RegisterUser) => {
+  const handleSubmit = (user: RegisterUserRequest) => {
     registerMutation.mutate(user);
   };
 
