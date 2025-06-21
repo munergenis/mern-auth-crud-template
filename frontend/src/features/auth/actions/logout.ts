@@ -1,5 +1,5 @@
 import API from '@/api/apiClient';
-import type { LogoutResponse } from '../interfaces/Auth';
+import type { MessageResponse } from '../interfaces/Auth';
 
 export const logout = async () =>
-  API.get<never, LogoutResponse>('/auth/logout');
+  API.get<never, MessageResponse>('/auth/logout');

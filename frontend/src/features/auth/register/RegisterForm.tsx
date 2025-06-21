@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { RegisterHeader } from '@/features/auth/register/components/RegisterHeader';
-import type { RegisterUser } from '@/features/auth/interfaces/Auth';
+import type { RegisterUserRequest } from '@/features/auth/interfaces/Auth';
 import { useForm } from 'react-hook-form';
 import registerFormSchema, {
   type RegisterFormSchema,
@@ -20,7 +20,7 @@ import { Loader } from '@/components/Loader/Loader';
 
 interface RegisterFormProps {
   isPending: boolean;
-  onUserSubmit: (registerUser: RegisterUser) => void;
+  onUserSubmit: (registerUser: RegisterUserRequest) => void;
   className?: string;
 }
 

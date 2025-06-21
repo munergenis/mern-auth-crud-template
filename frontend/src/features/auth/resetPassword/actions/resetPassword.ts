@@ -1,8 +1,8 @@
 import API from '@/api/apiClient';
 import type {
-  ResetPasswordData,
-  ResetPasswordResponse,
+  MessageResponse,
+  ResetPasswordRequest,
 } from '../../interfaces/Auth';
 
-export const resetPassword = async (data: ResetPasswordData) =>
-  API.post<never, ResetPasswordResponse>('/auth/password/reset', data);
+export const resetPassword = async (data: ResetPasswordRequest) =>
+  API.post<never, MessageResponse>('/auth/password/reset', data);

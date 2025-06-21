@@ -1,5 +1,5 @@
 import API from '@/api/apiClient';
-import type { VerifyEmailResponse } from '../../interfaces/Auth';
+import type { MessageResponse } from '../../interfaces/Auth';
 
 export const verifyEmail = async (verificationCode: string) =>
-  API.get<never, VerifyEmailResponse>(`/auth/email/verify/${verificationCode}`);
+  API.get<never, MessageResponse>(`/auth/email/verify/${verificationCode}`);

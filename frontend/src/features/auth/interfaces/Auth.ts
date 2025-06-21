@@ -1,22 +1,4 @@
-// RESPONSES
-export interface LoginResponse {
-  message: string;
-}
-export interface RegisterResponse {
-  email: string;
-}
-export interface ForgotPasswordResponse {
-  message: string;
-}
-export interface VerifyEmailResponse {
-  message: string;
-}
-export interface ResetPasswordResponse {
-  message: string;
-}
-export interface LogoutResponse {
-  message: string;
-}
+// RESPONSE ENTITIES
 export interface User {
   createdAt: Date;
   email: string;
@@ -24,21 +6,42 @@ export interface User {
   verified: boolean;
   _id: string;
 }
+export interface Session {
+  createdAt: Date;
+  expiresAt: Date;
+  userAgent?: string;
+  userId: string;
+}
+export interface MessageResponse {
+  message: string;
+}
+export interface EmailResponse {
+  email: string;
+}
+
+// RESPONSES
+export type LoginResponse = MessageResponse;
+export type RegisterResponse = EmailResponse;
+export type ForgotPasswordResponse = MessageResponse;
+export type VerifyEmailResponse = MessageResponse;
+export type ResetPasswordResponse = MessageResponse;
+export type LogoutResponse = MessageResponse;
+export type GetSessionsResponse = Session[];
 
 // REQUESTS
-export interface LoginUser {
+export interface LoginUserRequest {
   email: string;
   password: string;
 }
-export interface RegisterUser {
+export interface RegisterUserRequest {
   email: string;
   password: string;
   confirmPassword: string;
 }
-export interface ForgotPasswordData {
+export interface ForgotPasswordRequest {
   email: string;
 }
-export interface ResetPasswordData {
+export interface ResetPasswordRequest {
   password: string;
   verificationCode: string;
 }
