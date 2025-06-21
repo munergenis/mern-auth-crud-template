@@ -1,8 +1,15 @@
-import type { PropsWithChildren } from 'react';
+import type { ReactNode } from 'react';
 
-export const TypoH1 = ({ children }: PropsWithChildren) => {
+interface TypoH1Props {
+  className?: string;
+  children: ReactNode;
+}
+
+export const TypoH1 = ({ children, className }: TypoH1Props) => {
   return (
-    <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
+    <h1
+      className={`scroll-m-20 text-4xl font-extrabold tracking-tight text-balance ${className}`}
+    >
       {children}
     </h1>
   );
