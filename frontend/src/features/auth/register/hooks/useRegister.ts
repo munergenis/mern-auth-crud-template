@@ -10,6 +10,7 @@ export const useRegister = () => {
   const registerMutation = useMutation({
     mutationFn: register,
     onSuccess: () => {
+      // TODO: show success register page (and ask to verify email)
       navigate('/login', { replace: true });
     },
     onError: (error: ApiError) => {
