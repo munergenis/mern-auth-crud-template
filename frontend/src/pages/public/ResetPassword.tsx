@@ -1,13 +1,11 @@
 import type { ApiError } from '@/api/lib/ApiError';
-import { TypoLead } from '@/components/typography/TypoLead';
-import { TypoMuted } from '@/components/typography/TypoMuted';
-import { Button } from '@/components/ui/button';
 import { resetPassword } from '@/features/auth/resetPassword/actions/resetPassword';
 import { ResetPasswordForm } from '@/features/auth/resetPassword/ResetPasswordForm';
 import type { ResetPasswordFormSchema } from '@/features/auth/resetPassword/schema/resetPasswordFormSchema';
+import { AppMessage } from '@/shared/components/AppMessage';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import { toast } from 'sonner';
 
 export const ResetPassword = () => {
@@ -49,23 +47,11 @@ export const ResetPassword = () => {
         />
       )}
       {resetPasswordMutation.isSuccess && (
-        <div className="space-y-2">
-          <TypoLead
-            className="text-center text-pretty"
-            variant="accent"
-          >
-            Password reset successful!
-          </TypoLead>
-          <TypoMuted className="text-center">
-            Go back to{' '}
-            <Button
-              asChild
-              variant={'link'}
-            >
-              <Link to={'/login'}>Login</Link>
-            </Button>
-          </TypoMuted>
-        </div>
+        <AppMessage
+          title="Password reset successful!"
+          linkLabel="Login"
+          linkPath="/login"
+        />
       )}
     </div>
   );

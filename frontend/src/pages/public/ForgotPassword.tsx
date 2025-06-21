@@ -1,9 +1,8 @@
 import type { ApiError } from '@/api/lib/ApiError';
-import { TypoLead } from '@/components/typography/TypoLead';
-import { TypoMuted } from '@/components/typography/TypoMuted';
 import { sendPasswordResetEmail } from '@/features/auth/forgotPassword/actions/sendPasswordResetEmail';
 import { ForgotPasswordForm } from '@/features/auth/forgotPassword/components/ForgotPasswordForm';
 import type { ForgotPasswordRequest } from '@/features/auth/interfaces/Auth';
+import { AppMessage } from '@/shared/components/AppMessage';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -33,17 +32,10 @@ export const ForgotPassword = () => {
       )}
 
       {forgotPasswordMutation.isSuccess && (
-        <div className="space-y-2">
-          <TypoLead
-            className="text-center text-pretty"
-            variant="accent"
-          >
-            Email sent!
-          </TypoLead>
-          <TypoMuted className="text-center">
-            Check your inbox for further instructions.
-          </TypoMuted>
-        </div>
+        <AppMessage
+          title="Email sent!"
+          description="Check your inbox for further instructions."
+        />
       )}
     </div>
   );
