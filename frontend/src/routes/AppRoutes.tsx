@@ -64,11 +64,11 @@ const AppRoutes = () => {
           <Route element={<DashboardLayout />}>
             <Route
               path="dashboard"
-              element={<div>Here goes private routes</div>}
+              element={<div>Here is the dashboard</div>}
             />
             <Route
-              path="hola"
-              element={<div>hola route</div>}
+              path="sessions"
+              element={<Sessions />}
             />
           </Route>
         </Route>

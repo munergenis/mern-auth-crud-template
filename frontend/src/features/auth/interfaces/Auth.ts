@@ -7,10 +7,12 @@ export interface User {
   _id: string;
 }
 export interface Session {
+  _id: string;
   createdAt: Date;
   expiresAt: Date;
-  userAgent?: string;
   userId: string;
+  userAgent: string;
+  isCurrent?: boolean;
 }
 export interface MessageResponse {
   message: string;
