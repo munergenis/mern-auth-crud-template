@@ -8,10 +8,11 @@ import { Login } from '@/pages/public/Login';
 import { Register } from '@/pages/public/Register';
 import { ResetPassword } from '@/pages/public/ResetPassword';
 import { VerifyEmail } from '@/pages/public/VerifyEmail';
-import { Navigate, Route, Routes } from 'react-router';
+import { Navigate, Route, Routes, useNavigate } from 'react-router';
 import { AuthGuard } from './AuthGuard';
 import { VerifyEmailInfo } from '@/pages/public/VerifyEmailInfo';
 import { Sessions } from '@/pages/private/Sessions';
+import { setNavigate } from '@/shared/utils/navigation';
 
 const Landing = () =>
   HAS_LANDING ? (
@@ -24,6 +25,9 @@ const Landing = () =>
   );
 
 const AppRoutes = () => {
+  const navigate = useNavigate();
+  setNavigate(navigate);
+
   return (
     <Routes>
       <Route element={<RootLayout />}>
@@ -69,6 +73,10 @@ const AppRoutes = () => {
             <Route
               path="sessions"
               element={<Sessions />}
+            />
+            <Route
+              path="hola"
+              element={<div>hola page</div>}
             />
           </Route>
         </Route>
