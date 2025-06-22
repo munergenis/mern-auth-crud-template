@@ -45,7 +45,10 @@ API.interceptors.response.use(
         // Refresh failed: clear cache and redirect to login (unless already there)
         console.error(refreshError);
         queryClient.clear();
-        if (window.location.pathname !== '/login') {
+        if (
+          window.location.pathname !== '/login' &&
+          window.location.pathname !== '/register'
+        ) {
           navigate('/login', {
             state: { from: window.location.pathname },
           });
