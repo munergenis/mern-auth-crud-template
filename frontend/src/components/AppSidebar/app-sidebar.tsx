@@ -11,6 +11,7 @@ import {
   Settings2,
   SquareTerminal,
 } from 'lucide-react';
+import { useLocation } from 'react-router';
 
 import { NavMain } from '@/components/AppSidebar/components/nav-main';
 import { NavProjects } from '@/components/AppSidebar/components/nav-projects';
@@ -22,6 +23,7 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { useLogout } from '@/features/auth/hooks/useLogout';
@@ -164,6 +166,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const {
     logoutMutation: { mutate: logout },
   } = useLogout();
+
+  const { isMobile, setOpenMobile } = useSidebar();
+  const location = useLocation();
+
+  // Cierra la sidebar en mobile al navegar
+  React.useEffect(() => {
+    if (isMobile) setOpenMobile(false);
+  }, [location, isMobile, setOpenMobile]);
 
   return (
     <Sidebar
