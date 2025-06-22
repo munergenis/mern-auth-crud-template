@@ -74,8 +74,6 @@ export function NavUser({
 }) {
   const { isMobile } = useSidebar();
 
-  // TODO: Remove or refactor when DashboardLayout is ok
-
   return (
     <SidebarMenu>
       <SidebarMenuItem>
