@@ -13,9 +13,13 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { Outlet } from 'react-router';
+import { Outlet, useLocation, Link } from 'react-router';
+import { Fragment } from 'react/jsx-runtime';
 
 export default function DashboardLayout() {
+  const location = useLocation();
+  const pathnames = location.pathname.split('/').filter(Boolean);
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -30,14 +34,33 @@ export default function DashboardLayout() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
+                  <BreadcrumbLink asChild>
+                    <Link to="/">Home</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
+                {pathnames.map((segment, idx) => {
+                  const to = '/' + pathnames.slice(0, idx + 1).join('/');
+                  const isLast = idx === pathnames.length - 1;
+                  return (
+                    <Fragment key={to}>
+                      <BreadcrumbSeparator className="hidden md:block" />
+                      <BreadcrumbItem>
+                        {isLast ? (
+                          <BreadcrumbPage>
+                            {segment.charAt(0).toUpperCase() + segment.slice(1)}
+                          </BreadcrumbPage>
+                        ) : (
+                          <BreadcrumbLink asChild>
+                            <Link to={to}>
+                              {segment.charAt(0).toUpperCase() +
+                                segment.slice(1)}
+                            </Link>
+                          </BreadcrumbLink>
+                        )}
+                      </BreadcrumbItem>
+                    </Fragment>
+                  );
+                })}
               </BreadcrumbList>
             </Breadcrumb>
           </div>
