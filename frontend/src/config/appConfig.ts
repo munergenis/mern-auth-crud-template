@@ -7,8 +7,10 @@ import {
 } from 'lucide-react';
 
 export const HAS_LANDING = true;
-// TODO: Make it dynamic
 export const LOCALE = 'es-ES';
+// TODO: review
+// export const LOCALE =
+//   typeof window !== 'undefined' ? navigator.language || 'es-ES' : 'es-ES';
 
 export interface UserMenuOption {
   label: string;
