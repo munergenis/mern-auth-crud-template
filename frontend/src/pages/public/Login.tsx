@@ -10,7 +10,8 @@ export const Login = () => {
   const { userAuthQuery } = useAuth();
 
   useEffect(() => {
-    if (userAuthQuery.data) {
+    if (userAuthQuery.data && userAuthQuery.isSuccess) {
+      // If already authenticated, always redirect to dashboard
       navigate('/dashboard', { replace: true });
     }
   }, [userAuthQuery, navigate]);
