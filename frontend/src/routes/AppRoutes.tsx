@@ -75,8 +75,8 @@ const AppRoutes = () => {
               element={<Sessions />}
             />
             <Route
-              path="hola"
-              element={<div>hola page</div>}
+              path="settings"
+              element={<div>Here you find some settings</div>}
             />
           </Route>
         </Route>
@@ -86,7 +86,7 @@ const AppRoutes = () => {
           path="*"
           element={
             <Navigate
-              to={'/'}
+              to={'/dashboard'}
               replace
             />
           }

@@ -3,7 +3,7 @@ import {
   // Bell,
   // CreditCard,
   LogOut,
-  Sparkles,
+  Settings2,
 } from 'lucide-react';
 
 export const HAS_LANDING = true;
@@ -21,9 +21,9 @@ export interface UserMenuOption {
 
 export const userMenuOptions: UserMenuOption[] = [
   {
-    label: 'Some Main Options',
-    icon: Sparkles,
-    route: '/options',
+    label: 'Some Main Settings',
+    icon: Settings2,
+    route: '/settings',
     group: 'main',
   },
   // {
