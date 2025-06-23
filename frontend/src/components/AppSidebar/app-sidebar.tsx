@@ -170,9 +170,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { isMobile, setOpenMobile } = useSidebar();
   const location = useLocation();
 
-  // Cierra la sidebar en mobile al navegar
+  // Close the sidebar on mobile when navigating
+  // This effect closes the sidebar on mobile devices when the route changes.
   React.useEffect(() => {
     if (isMobile) setOpenMobile(false);
+
+    // Cleanup: reset pointer events on body when the component unmounts or dependencies change.
+    // Workaround for the body pointer-events bug of shadcn sidebar
+    return () => {
+      document.body.style.pointerEvents = '';
+    };
   }, [location, isMobile, setOpenMobile]);
 
   return (
